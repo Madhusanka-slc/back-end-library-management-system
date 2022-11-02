@@ -1,0 +1,25 @@
+[
+
+    {
+        "name": "Sampath",
+        "address": "Galle",
+        "contact": "071-2589631"
+    },
+
+    {"name": "Chathura",
+        "address": "Galle",
+        "contact": "071-25"},
+
+    {"name": null,
+        "address": "Galle",
+        "contact": "071-2"},
+
+    {"name": "Sameera",
+        "address": "Galle",
+        "contact": "071-2589631"},
+
+    {   "name": "Dinu",
+        "address": null,
+        "contact": "071-2589631"
+    }
+]
