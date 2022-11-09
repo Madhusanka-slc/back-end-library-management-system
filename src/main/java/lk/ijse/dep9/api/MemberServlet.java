@@ -121,7 +121,7 @@ public class MemberServlet extends HttpServlet2 {
             connection.close();// This is not going to close the connection,it is going to pool back  , instead it releases the connection
 
                 Jsonb jsonb = JsonbBuilder.create();
-                response.addHeader("Access-Control-Allow-Origin","*");// note
+//                response.addHeader("Access-Control-Allow-Origin","*");// note
 //                response.addHeader("Access-Control-Allow-Origin","http://localhost:5501");
                 response.setContentType("application/json");
 
@@ -192,9 +192,9 @@ public class MemberServlet extends HttpServlet2 {
                 members.add(new MemberDTO(id,name,address,contact));
 
             }
-            response.addHeader("Access-Control-Allow-Origin","*");// note
-            response.addHeader("Access-Control-Allow-Headers","X-Total-Count");// note
-            response.addHeader("Access-Control-Expose-Headers","X-Total-Count");// note
+//            response.addHeader("Access-Control-Allow-Origin","*");// note
+//            response.addHeader("Access-Control-Allow-Headers","X-Total-Count");// note
+//            response.addHeader("Access-Control-Expose-Headers","X-Total-Count");// note
             response.setContentType("application/json");
             Jsonb jsonb = JsonbBuilder.create();
             jsonb.toJson(members,response.getWriter());
@@ -242,9 +242,9 @@ public class MemberServlet extends HttpServlet2 {
                 members.add(new MemberDTO(id,name,address,contact));
 
             }
-            response.addHeader("Access-Control-Allow-Origin","*");// note
-            response.addHeader("Access-Control-Allow-Headers","X-Total-Count");// note
-            response.addHeader("Access-Control-Expose-Headers","X-Total-Count");// note
+//            response.addHeader("Access-Control-Allow-Origin","*");// note
+//            response.addHeader("Access-Control-Allow-Headers","X-Total-Count");// note
+//            response.addHeader("Access-Control-Expose-Headers","X-Total-Count");// note
             response.setContentType("application/json");
             Jsonb jsonb = JsonbBuilder.create();
             jsonb.toJson(members,response.getWriter());
@@ -259,17 +259,17 @@ public class MemberServlet extends HttpServlet2 {
 
     }
 
-    @Override
-    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       resp.setHeader("Access-Control-Allow-Origin","*");
-       resp.setHeader("Access-Control-Allow-Methods","POST,GET,PATCH,DELETE,HEAD,OPTIONS,PUT");
-        String headers = req.getHeader("Access-Control-Request-Headers");
-        if(headers !=null){
-            resp.setHeader("Access-Control-Allow-Headers",headers);
-            resp.setHeader("Access-Control-Expose-Headers",headers);
-
-        }
-    }
+//    @Override
+//    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//       resp.setHeader("Access-Control-Allow-Origin","*");
+//       resp.setHeader("Access-Control-Allow-Methods","POST,GET,PATCH,DELETE,HEAD,OPTIONS,PUT");
+//        String headers = req.getHeader("Access-Control-Request-Headers");
+//        if(headers !=null){
+//            resp.setHeader("Access-Control-Allow-Headers",headers);
+//            resp.setHeader("Access-Control-Expose-Headers",headers);
+//
+//        }
+//    }
 
     private  void getMemberDetails(String memberId, HttpServletResponse response) throws IOException {
 //        System.out.println("getMemberDetails()");
@@ -286,7 +286,7 @@ public class MemberServlet extends HttpServlet2 {
                 String address = rst.getString("address");
                 String contact = rst.getString("contact");
                 members.add(new MemberDTO(id,name,address,contact));
-                response.setHeader("Access-Control-Allow-Origin","*");
+//                response.setHeader("Access-Control-Allow-Origin","*");
                 response.setContentType("application/json");
                 Jsonb jsonb = JsonbBuilder.create();
                 jsonb.toJson(members,response.getWriter());
@@ -339,7 +339,7 @@ public class MemberServlet extends HttpServlet2 {
                     int affectedRows = stm.executeUpdate();
                     if(affectedRows==1){
                         response.setStatus(HttpServletResponse.SC_CREATED);
-                        response.setHeader("Access-Control-Allow-Origin","*");
+//                        response.setHeader("Access-Control-Allow-Origin","*");
                         response.setContentType("application/json");
                         JsonbBuilder.create().toJson(member,response.getWriter());
 
@@ -400,7 +400,7 @@ public class MemberServlet extends HttpServlet2 {
                  response.sendError(HttpServletResponse.SC_NOT_FOUND,"Invalid member id");
 
              }else {
-                 response.setHeader("Access-Control-Allow-Origin","*");
+//                 response.setHeader("Access-Control-Allow-Origin","*");
                  response.setStatus(HttpServletResponse.SC_NO_CONTENT);
              }
          } catch (SQLException | IOException e) {
@@ -454,7 +454,7 @@ public class MemberServlet extends HttpServlet2 {
                 stm.setString(4, member.getId());
 
                 if (stm.executeUpdate() == 1) {
-                    response.setHeader("Access-Control-Allow-Origin","*");
+//                    response.setHeader("Access-Control-Allow-Origin","*");
                     response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Member does not exist");

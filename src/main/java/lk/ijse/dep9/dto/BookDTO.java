@@ -4,7 +4,7 @@ public class BookDTO {
     private String isbn;
     private String title;
     private String author;
-    private int copies;
+    private Integer copies;
 
     public BookDTO() {
     }
@@ -40,11 +40,11 @@ public class BookDTO {
         this.author = author;
     }
 
-    public int getCopies() {
+    public Integer getCopies() {
         return copies;
     }
 
-    public void setCopies(int copies) {
+    public void setCopies(Integer copies) {
         this.copies = copies;
     }
 }
