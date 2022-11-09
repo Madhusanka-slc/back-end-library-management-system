@@ -38,4 +38,4 @@ jobs:
             --command="sudo rm -rf $UPLOAD_DIR/lms#api.war $UPLOAD_DIR/lms#api"
 
       - name: 'Deploying the war file'
-        run: gcloud compute scp --zone="asia-south1-a" target/lms#api.war root@dep-9-vm:$UPLOAD_DIR
+        run: gcloud compute scp --zone="asia-south1-a" target/lms-back-end-1.0.0.war root@dep-9-vm:$UPLOAD_DIR
