@@ -82,6 +82,7 @@ public class MemberServlet extends HttpServlet2 {
             /* pattern matcher*/
             Pattern pattern = Pattern.compile("^/([A-Fa-f0-9]{8}(-[A-Fa-f0-9]{4}){3}-[A-Fa-f0-9]{12})/?$");
             Matcher matcher = pattern.matcher(request.getPathInfo());
+            System.out.println();
 
             if(matcher.matches()){
                 getMemberDetails(matcher.group(1),response);
@@ -125,6 +126,7 @@ public class MemberServlet extends HttpServlet2 {
                 response.setContentType("application/json");
 
                 jsonb.toJson(members,response.getWriter());
+
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -256,7 +258,20 @@ public class MemberServlet extends HttpServlet2 {
 
 
     }
-    private  void getMemberDetails(String memberId,HttpServletResponse response) throws IOException {
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+       resp.setHeader("Access-Control-Allow-Origin","*");
+       resp.setHeader("Access-Control-Allow-Methods","POST,GET,PATCH,DELETE,HEAD,OPTIONS,PUT");
+        String headers = req.getHeader("Access-Control-Request-Headers");
+        if(headers !=null){
+            resp.setHeader("Access-Control-Allow-Headers",headers);
+            resp.setHeader("Access-Control-Expose-Headers",headers);
+
+        }
+    }
+
+    private  void getMemberDetails(String memberId, HttpServletResponse response) throws IOException {
 //        System.out.println("getMemberDetails()");
 //        response.getWriter().printf("<h1>WS: Get Member Details of: %s</h1>",memberId);
         try(Connection connection = pool.getConnection()) {
@@ -271,6 +286,7 @@ public class MemberServlet extends HttpServlet2 {
                 String address = rst.getString("address");
                 String contact = rst.getString("contact");
                 members.add(new MemberDTO(id,name,address,contact));
+                response.setHeader("Access-Control-Allow-Origin","*");
                 response.setContentType("application/json");
                 Jsonb jsonb = JsonbBuilder.create();
                 jsonb.toJson(members,response.getWriter());
@@ -308,7 +324,7 @@ public class MemberServlet extends HttpServlet2 {
                 } else if (member.getContact()==null || !member.getContact().matches("\\d{3}-\\d{7}")) {
                     throw new JsonbException("Contact is empty or invalid");
 
-                }else if (member.getAddress()==null || !member.getAddress().matches("[A-Za-z0-9,.:;/\\- ]+")) {
+                }else if (member.getAddress()==null || !member.getAddress().matches("[A-Za-z0-9|,.:;#\\/\\\\ -]+")) {
                     throw new JsonbException("Address is empty or invalid");
 
                 }
@@ -323,6 +339,7 @@ public class MemberServlet extends HttpServlet2 {
                     int affectedRows = stm.executeUpdate();
                     if(affectedRows==1){
                         response.setStatus(HttpServletResponse.SC_CREATED);
+                        response.setHeader("Access-Control-Allow-Origin","*");
                         response.setContentType("application/json");
                         JsonbBuilder.create().toJson(member,response.getWriter());
 
@@ -383,14 +400,12 @@ public class MemberServlet extends HttpServlet2 {
                  response.sendError(HttpServletResponse.SC_NOT_FOUND,"Invalid member id");
 
              }else {
+                 response.setHeader("Access-Control-Allow-Origin","*");
                  response.setStatus(HttpServletResponse.SC_NO_CONTENT);
-
              }
-
          } catch (SQLException | IOException e) {
              throw new RuntimeException(e);
          }
-
     }
 
     @Override
@@ -426,7 +441,7 @@ public class MemberServlet extends HttpServlet2 {
                     !member.getContact().matches("\\d{3}-\\d{7}")) {
                 throw new JsonbException("Contact is empty or invalid");
             } else if (member.getAddress() == null ||
-                    !member.getAddress().matches("[A-Za-z0-9,.:;/\\-]+")) {
+                    !member.getAddress().matches("[A-Za-z0-9|,.:;#\\/\\\\ -]+")) {
                 throw new JsonbException("Address is empty or invalid");
             }
 
@@ -439,6 +454,7 @@ public class MemberServlet extends HttpServlet2 {
                 stm.setString(4, member.getId());
 
                 if (stm.executeUpdate() == 1) {
+                    response.setHeader("Access-Control-Allow-Origin","*");
                     response.setStatus(HttpServletResponse.SC_NO_CONTENT);
                 } else {
                     response.sendError(HttpServletResponse.SC_NOT_FOUND, "Member does not exist");
