@@ -35,7 +35,7 @@ jobs:
       - name: Cleaning up the old stuff
         run: >
             gcloud compute ssh --zone="asia-south1-a" dep-9-vm 
-            --command="sudo rm -rf $UPLOAD_DIR/lms#api.war $UPLOAD_DIR/lms#api"
+            --command="sudo rm -rf $UPLOAD_DIR/lms-back-end-1.0.0.war $UPLOAD_DIR/lms-back-end-1.0.0.war"
 
       - name: 'Deploying the war file'
         run: gcloud compute scp --zone="asia-south1-a" target/lms-back-end-1.0.0.war root@dep-9-vm:$UPLOAD_DIR
